@@ -1,121 +1,90 @@
 #include "main.h"
-#include "stdlib.h"
+#include <stdlib.h>
+#include <stdio.h>
 /**
- * _print_format - prints format
- * @format: the format to be printed
- * @args: list of  variadic arguments
- * Return: format length
+ * _print_a_char - prints a char
+ * @args: list of variadic arguments
+ * Return: character length
  */
-int _print_format(const char *format, va_list args)
+int _print_a_char(va_list args)
 {
-	int count = 0;
-	int x = 0;
+	_write(va_arg(args, int));
+	return (-1);
+}
 
-	while (format && format[x])
+/**
+ * _print_a_string - prints a string
+ * @args: list of variadic arguments
+ * Return: string length
+ */
+int _print_a_string(va_list args)
+{
+	char *arg = va_arg(args, char*);
+	int z = 0;
+
+	if (arg != NULL)
 	{
-		if (format[x] == '%')
+		while (arg[z])
 		{
-			if (format[x + 1] == '\0')
-				return (-1);
-			x++;
-
-			while (format[x] == ' ')
-				x++;
-
-			if (format[x] == '%')
-				count += _write(format[x]);
-
-			if (_validate_char(format[x]) == 0)
-			{
-				count += _print_invalid_spec(format[x - 1], format[x], count);
-			}
-			else
-			{
-				count += _print_spec(format[x], args);
-			}
-		}
-		else
-		{
-			count += _write(format[x]);
+			_write(arg[z]);
+			z++;
 		}
 
-		x++;
+		return (z);
 	}
 
+	_write('(');
+	_write('n');
+	_write('u');
+	_write('l');
+	_write('l');
+	_write(')');
+	return (6);
+}
+
+/**
+ * _print_an_integer - prints an integer
+ * @args: list of variadic arguments
+ * Return: string length
+ */
+int _print_an_integer(va_list args)
+{
+	int count = 1;
+	int p = 0;
+	unsigned int q = 0;
+
+	q = va_arg(args, int);
+	p = q;
+
+	if (p < 0)
+	{
+		_write('-');
+		p = p * -1;
+		q = p;
+		count += 1;
+	}
+
+	while (q > 9)
+	{
+		q = q / 10;
+		count++;
+	}
+
+	_recursion_integer(p);
 	return (count);
 }
 
 /**
- * _print_spec - Prints valid specifier
- * @format: the specifier to be printed
- * @args: a list of variadic arguments
- * Return: length of specifier
+ * _recursion_integer - Prints an integer
+ * @a: integer to print
+ * Return: nothing
  */
-int _print_spec(char format, va_list args)
+void _recursion_integer(int a)
 {
-	int x = 0;
+	unsigned int w = a;
 
-	int number = 0;
-	spc_dt _types[] = {
-		{"c", _print_a_char},
-		{"s", _print_a_string},
-		{"d", _print_an_integer},
-		{"i", _print_an_integer},
-		{"b", _print_int_binary},
-		{NULL, NULL}
-	};
-
-	while (_types[x].specifier)
-	{
-		if (*_types[x].specifier == format)
-			number = _types[x].f(args);
-
-		x++;
-	}
-
-	return (number);
+	w = a;
+	if (w / 10)
+		_recursion_integer(w / 10);
+	_write(w % 10 + '0');
 }
-
-/**
- * _print_invalid_spec - prints invalid specifier
- * @prev_format: previous specifier of current specifier
- * @format: prints specifier
- * @count: count before invalid specifiers are printed
- * Return: count after invalid specifiers are printed
- */
-int _print_invalid_spec(char prev_format, char format, int count)
-{
-	count += _write('%');
-
-	if (prev_format == ' ')
-	{
-		count += _write(' ');
-		count += _write(format);
-	}
-	else
-	{
-		count += _write(format);
-	}
-
-	return (count);
-}
-
-/**
- * _validate_char - validates the type
- * @_type: character in comparison
- * Return: 1 if character is same as the type
- */
-int _validate_char(char _type)
-{
-	char _types[] = {'c', 's', 'd', 'i', '%'};
-	int x = 0;
-
-	while (_types[x] == _type)
-	{
-		if (_types[x] == _type)
-			return (-1);
-		x++;
-	}
-	return (0);
-}
-
