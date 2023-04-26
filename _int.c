@@ -1,11 +1,11 @@
 #include "main.h"
 /**
  *print_int - print an integer from the variadic function
- * @arg: variadic parameter
+ * @args: variadic parameter
  *
  * Return: number of characters printed on success
 */
-int print_int(va_list arg)
+int print_int(va_list args)
 {
 	int i = 0;
 	int count;
@@ -13,7 +13,7 @@ int print_int(va_list arg)
 	int arr[11];
 	char x[1];
 
-	num = va_arg(arg, int);
+	num = va_arg(args, int);
 	while (num != 0)
 	{
 		arr[i] = (num % 10);
@@ -23,9 +23,9 @@ int print_int(va_list arg)
 		i++;
 	}
 
-	for (i ; i >= 0 ; 1--)
+	for (i ; i >= 0 ; i--)
 	{
-		x[1] = ('0' + arr[i]);
+		x[0] = ('0' + arr[i]);
 		count += write(1, x, 1);
 	}
 	return (count);
