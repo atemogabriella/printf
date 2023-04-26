@@ -1,57 +1,65 @@
+#include "main.h"
+#include <stdarg.h>
 #include <stdio.h>
 /**
- * _printf - function my printf
- * @format: string format to print be printedi
- *
- * Return: number of chars that print
+ * _printf - improvised printf function
+ * @format: string format to be printed
+ * Return: number of characters printed
  */
-
 int _printf(const char *format, ...)
 {
-	int i, count, number = 0;
 	va_list args;
-	int f = 0;
-
-	if (format == NULL)
-
-		return (-1);
 
 	va_start(args, format);
 
-    /*print each character of the string*/
-	while (format[i])
-	{
-		if (format[i] != '%')
-		{
-			/*number of output char sent to the standard output*/
-			number = write(1, &format[i], 1);
-			count = count + number;
-			i++;
-			continue;
-		}
+	int count = 0;
 
-		if (format[i] == '%')
+	while (*format != '\0')
+	{
+		if (*format == '%')
 		{
-			f = _specifier (&format[i + 1]);
-			if (f != NULL)
+			format++;
+			switch (*format)
 			{
-				number = f(args);
-				count = count + number;
-				i++;
+				case 'c':
+				{
+					char c = (char) va_arg(args, int);
+
+					fwrite(c);
+					count++;
+					break;
+				}
+				case 's':
+				{
+					char s = (char) va_arg(args, char*);
+
+					while (s != '\0')
+					{
+						write(*s);
+						count++;
+						s++;
+					}
+					break;
+				}
+				case '%':
+				{
+					write('%');
+					count++;
+					break;
+				}
+				default:
+				break;
 			}
-		}
-		if (format[i + 1] == '\0')
-		{
-			break;
 		}
 		else
 		{
-			number = fwrite(1, &format[i + 1], 1);
-			count = count + number;
-			i++;
-			continue;
+			write(*format);
+			count++;
 		}
+		format++;
 	}
+	va_end(args);
 	return (count);
 
 }
+
