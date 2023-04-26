@@ -1,28 +1,20 @@
-#ifndef MAIN_H
-#define MAIN_H
-#include <stdlib.h>
-#include <stdarg.h>
-/**
- * struct specifiers - describe a particular type of struct
- * @specifier: the operator
- * @f: the pointer of the function
- */
-typedef struct specifiers
-{
-	char *specifier;
+#ifndef _MAIN_H_
+#define _MAIN_H_
 
-	int (*f)(va_list args);
-} spc_dt;
-int _write(char c);
+#include <unistd.h>
+#include <stdarg.h>
+
+
 int _printf(const char *format, ...);
-int _print_a_char(va_list args);
-int _print_a_string(va_list args);
-int _print_format(const char *format, va_list args);
-int _print_spec(char format, va_list args);
-int _print_invalid_spec(char prev_format, char format, int count);
-int _print_an_integer(va_list args);
-void _recursion_integer(int a);
-int _print_int_binary(va_list args);
-void _recursion_int_binary(int a);
-int _validate_char(char _type);
+int (*_specifier(const char *format))(va_list);
+/**
+ * struct cnd - conditions to be printed
+ * @condition: condition of the character to compare
+ * @f: function that stores the string to be printed
+ */ 
+typedef struct cnd
+{
+	char * condition;
+	int (*f) (va_list);
+}cnd_dt;
 #endif
