@@ -1,10 +1,18 @@
 #include "main.h"
+<<<<<<< HEAD
 #include <stdarg.h>
 #include <stdio.h>
 /**
  * _printf - improvised printf function
  * @format: string format to be printed
  * Return: number of characters printed
+=======
+/**
+ * _printf - printf function
+ * @format: variadic parameter
+ *
+ * Return: count if successful
+>>>>>>> 27f9d46118ab643558fc59e2888f8be986044f7b
  */
 int _printf(const char *format, ...)
 {
@@ -18,13 +26,28 @@ int _printf(const char *format, ...)
 	if (*format == '\0')
 		return (-1);
 
+<<<<<<< HEAD
 	while (*format != '\0')
 	{
 		if (*format == '%')
+=======
+	while (format && format[i] != '\0')
+	{
+		if (format[i] != '%')
+		{
+			number = write(1, &format[i], 1);
+			count = count + number;
+			i++;
+			continue;
+		}
+	
+		if (format[i] == '%')
+>>>>>>> 27f9d46118ab643558fc59e2888f8be986044f7b
 		{
 			format++;
 			switch (*format)
 			{
+<<<<<<< HEAD
 				case 'c':
 				{
 					c = va_arg(args, int);
@@ -71,6 +94,23 @@ int _printf(const char *format, ...)
 		{
 			write(1, format, 1);
 			count++;
+=======
+				number = f(args);
+				count = count + number;
+				i = 1 + 2;
+			}
+		}
+		if (format[i + 1] == '\0')
+		{
+			break;
+		}
+		if (format[i + 1] != '\0')
+		{
+			number = write(1, &format[i + 1], 1);
+			count = count + number;
+			i = i + 2;
+			continue;
+>>>>>>> 27f9d46118ab643558fc59e2888f8be986044f7b
 		}
 		format++;
 	}
