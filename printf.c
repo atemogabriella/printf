@@ -1,46 +1,57 @@
-#include "main.h"
-#include "stdlib.h"
+#include <stdio.h>
 /**
- * _print_format - prints format
- * @format: the format to be printed
- * @args: list of  variadic arguments
- * Return: format length
+ * _printf - function my printf
+ * @format: string format to print be printedi
+ *
+ * Return: number of chars that print
  */
-int _print_format(const char *format, va_list args)
+
+int _printf(const char *format, ...)
 {
-	int count = 0;
-	int x = 0;
+	int i, count, number = 0;
+	va_list args;
+	int f = 0;
 
-	while (format && format[x])
+	if (format == NULL)
+
+		return (-1);
+
+	va_start(args, format);
+
+    /*print each character of the string*/
+	while (format[i])
 	{
-		if (format[x] == '%')
+		if (format[i] != '%')
 		{
-			if (format[x + 1] == '\0')
-				return (-1);
-			x++;
+			/*number of output char sent to the standard output*/
+			number = write(1, &format[i], 1);
+			count = count + number;
+			i++;
+			continue;
+		}
 
-			while (format[x] == ' ')
-				x++;
-
-			if (format[x] == '%')
-				count += _write(format[x]);
-
-			if (_validate_char(format[x]) == 0)
+		if (format[i] == '%')
+		{
+			f = _specifier (&format[i + 1]);
+			if (f != NULL)
 			{
-				count += _print_invalid_spec(format[x - 1], format[x], count);
+				number = f(args);
+				count = count + number;
+				i++;
 			}
-			else
-			{
-				count += _print_spec(format[x], args);
-			}
+		}
+		if (format[i + 1] == '\0')
+		{
+			break;
 		}
 		else
 		{
-			count += _write(format[x]);
+			number = fwrite(1, &format[i + 1], 1);
+			count = count + number;
+			i++;
+			continue;
 		}
-
-		x++;
 	}
-
 	return (count);
+
 }
