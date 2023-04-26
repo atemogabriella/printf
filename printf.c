@@ -1,5 +1,10 @@
-#include <stdio.h>
-
+#include "main.h"
+/**
+ * _printf - printf function
+ * @format: variadic parameter
+ *
+ * Return: count if successful
+ */
 int _printf(const char *format, ...)
 {
 	int i = 0;
@@ -14,12 +19,10 @@ int _printf(const char *format, ...)
 
 		return (-1);
 
-    /*print each character of the string*/
-	while (format[i])
+	while (format && format[i] != '\0')
 	{
 		if (format[i] != '%')
 		{
-			/*number of output char sent to the standard output*/
 			number = write(1, &format[i], 1);
 			count = count + number;
 			i++;
@@ -34,18 +37,18 @@ int _printf(const char *format, ...)
 			{
 				number = f(args);
 				count = count + number;
-				i++;
+				i = 1 + 2;
 			}
 		}
 		if (format[i + 1] == '\0')
 		{
 			break;
 		}
-		else
+		if (format[i + 1] != '\0')
 		{
 			number = write(1, &format[i + 1], 1);
 			count = count + number;
-			i++;
+			i = i + 2;
 			continue;
 		}
 	}

@@ -56,11 +56,11 @@ int _print_spec(char format, va_list args)
 	int x = 0;
 
 	int number = 0;
-	spc_dt _types[] = {
-		{"c", _print_a_char},
-		{"s", _print_a_string},
-		{"d", _print_an_integer},
-		{"i", _print_an_integer},
+	cnd_dt _types[] = {
+		{"c", _print_char},
+		{"s", _print_string},
+		{"d", _print_dec},
+		{"i", _print_integer},
 		{"b", _print_int_binary},
 		{NULL, NULL}
 	};
@@ -104,6 +104,7 @@ int _print_invalid_spec(char prev_format, char format, int count)
  * _validate_char - validates the type
  * @_type: character in comparison
  * Return: 1 if character is same as the type
+ * 0 otherwise
  */
 int _validate_char(char _type)
 {
