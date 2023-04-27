@@ -4,8 +4,8 @@
 /**
  * print_char - print a single character
  * @args: a list of arguments
- * @count: pointer to count of characters printed
- * Return: void
+ * @count: pointer to count
+ * Return: nothing
  */
 void print_char(va_list args, int *count)
 {
