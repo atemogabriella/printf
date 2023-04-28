@@ -8,4 +8,5 @@ int _printf(const char *format, ...);
 void print_string(va_list args, int *count);
 void print_char(va_list args, int *count);
 void print_int(va_list args, int *count);
+void print_integer(va_list args, int *count);
 #endif
